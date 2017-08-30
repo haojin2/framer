@@ -7,11 +7,7 @@ __version__ = "0.0.1"
 __maintainer__ = "Hao Jin"
 __email__ = "haoj@andrew.cmu.edu"
 
-from skimage.transform import resize
 import sys
-from skimage.io import imread, imshow, show, imsave
-from skimage.transform import rescale
-from skimage import img_as_float
 import getopt
 
 upper_left = (0, 0)
@@ -19,11 +15,16 @@ lower_right = (0, 0)
 
 
 def usage():
-    print """usage: python framer.py -f <frame_file> -i <frame_data>""" \
-          """-o <output_path>"""
+    print """usage: python framer.py(c) -f <frame_file> -d <frame_data> """ \
+          """-i <input_file> -o <output_file>"""
 
 
 def main(input_file, frame, data, output_path):
+    from skimage.io import imread, imshow, show, imsave
+    from skimage.transform import rescale
+    from skimage import img_as_float
+    from skimage.transform import resize
+
     try:
         frame_img = imread(frame, as_float=True)
         frame_img = img_as_float(frame_img)
@@ -74,6 +75,9 @@ def main(input_file, frame, data, output_path):
 
 
 if __name__ == '__main__':
+    if len(sys.argv) < 2:
+        usage()
+        sys.exit(1)
     try:
         opts, args = getopt.getopt(sys.argv[1:], "hi:f:d:o:",
                                    ["help", "input=", "frame=", "data=",
